@@ -624,7 +624,7 @@ sealed class Proto<T: Const<T, in Number>, Q: Number> {
     abstract val Const<T, Number>.value: Q
 }
 
-object DoubleContext: Proto<DConst, Double>() {
+object DblContext: Proto<DConst, Double>() {
     override val Const<DConst, Number>.value: Double
         get() = c.toDouble()
 

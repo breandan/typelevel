@@ -143,6 +143,13 @@ sealed class Protocol<X : RealNumber<X>> {
 
     fun Number.pow(exp: Fun<X>) = wrap(this) pow exp
     infix fun Fun<X>.pow(exp: Number) = this pow wrap(exp)
+
+    class Differential<X: Fun<X>>(private val scalarFun: Fun<X>) {
+        // TODO: make sure this notation works for arbitrary nested functions using the Chain rule
+        infix operator fun div(arg: Differential<X>) = scalarFun.diff(arg.scalarFun.vars.first())
+    }
+
+    fun <X: Fun<X>> d(scalarFun: Fun<X>) = Differential(scalarFun)
 }
 
 object DoublePrecision : Protocol<DoubleReal>() {
@@ -154,6 +161,9 @@ object DoublePrecision : Protocol<DoubleReal>() {
 
     operator fun VFun<DoubleReal, *>.invoke(vararg sPairs: Pair<Var<DoubleReal>, Number>) =
         this(sPairs.map { (it.first to wrap(it.second)) }.toMap())
+
+    val x = Var("x", 0.0)
+    val y = Var("y", 0.0)
 }
 
 

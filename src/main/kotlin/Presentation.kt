@@ -2,8 +2,6 @@ import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.jooq.DSLContext
 import org.jooq.example.db.h2.Tables.*
-import org.jooq.impl.DSL
-import java.io.PrintStream
 import kotlin.random.Random
 import java.lang.StringBuilder
 
@@ -117,16 +115,12 @@ mathematical notation. --Kenneth Iverson
 
 fun test() {
     with(DoublePrecision) {
-        val x = Var("x", 0.0)
-        val y = Var("y", 0.0)
-
         val f = x pow 2
         val df_dx = f.diff(x)
         val g = x pow x
         val dg_dx = g.diff(x)
-
         val h = x + y
-        val dh_dx = h.diff(x)
+        val dh_dx = (d(h)/d(x)).diff(x) //h.diff(x)
 
         val vf1 = VFun(y + x, y * 2)
         val bh = x * vf1
