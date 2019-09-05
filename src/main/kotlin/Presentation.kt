@@ -4,56 +4,63 @@ import org.jooq.DSLContext
 import org.jooq.example.db.h2.Tables.*
 import org.jooq.impl.DSL
 import java.io.PrintStream
+import kotlin.random.Random
 
-/*============================================
-                 Kotlin∇:
-
-
+/*==============================================
 
 
 
-           A Shape-Safe eDSL for
-   Differentiable Functional Programming
+                     Kotlin∇:
+
+               A Shape-Safe eDSL for
+       Differentiable Functional Programming
 
 
 
 
 
-             Breandan Considine
-============================================*/
+                Breandan Considine
 
 
-/*===============================================
 
 
-"There is a race between the increasing complexity
-of the systems we build and our ability to develop
-intellectual tools for understanding their
-complexity. If the race is won by our tools, then
-systems will eventually become easier to use and
-more reliable. If not, they will continue to
-become harder to use and less reliable for all
-but a relatively small set of common tasks. Given
-how hard thinking is, if those intellectual tools
-are to succeed, they will have to substitute
-calculation for thought." -- Leslie Lamport
+================================================
+
+
+" There is a race between the increasing
+  complexity of the systems we build and our
+  ability to develop intellectual tools for
+  understanding their complexity.
+
+  If the race is won by our tools, then
+  systems will eventually become easier to
+  use and more reliable. If not, they will
+  continue to become harder to use and less
+  reliable for all but a relatively small
+  set of common tasks.
+
+  Given how hard thinking is, if those
+  intellectual tools are to succeed,
+  they will have to substitute calculation
+  for thought. " -- Leslie Lamport
 
 
 ===============================================*/
 
 
-// An Introduction to Type Safety
+// An Gentle Introduction to Type Safety
 
-fun getLength(x: Any) =
-//    if (x is String) x.length else 0
-    when (x) {
-        is String -> x.length
-        is List<*> -> x.size
-        is Map<*, *> -> x.size
-        is Number -> x.toString().length
+fun getLength(a: Any) = //if(any is String) any.length else 0
+    when(a) {
+        is String -> a.length
+        is List<*> -> a.size
+        is Number -> a.toString().length
         else -> 0
     }
 
+//val q = if(Random.nextBoolean()) null else "t"
+//val r = q.length
+//val s = r / 2
 
 val airplane = Chassis
     .addWings()
@@ -75,6 +82,32 @@ val t = StringBuilder(1).appendHTML().html {
 }
 
 // A SQL DSL
+
+fun DSLContext.query() {
+    select(AUTHOR.LAST_NAME,
+        AUTHOR.FIRST_NAME,
+        BOOK.TITLE,
+        BOOK.PUBLISHED_IN)
+        .from(AUTHOR)
+        .join(BOOK).on(BOOK.ID.eq(AUTHOR.ID))
+        .and(AUTHOR.LAST_NAME.notEqual("1"))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 fun DSLContext.use() {
     val a = AUTHOR
@@ -119,15 +152,11 @@ fun test() {
 
 fun example3() {
     with(DoubleContext) {
-        val q = X + Y + Z + Y + 0.0
-        println("q = $q")
-        val totalApp = q(X to 1.0, Y to 2.0, Z to 3.0)
-        println(totalApp)
-        val partialApp = q(X to 1.0, Y to 1.0)(Z to 1.0)
-        println(partialApp)
-        val partialApp2 = q(X to 1.0)(Y to 1.0, Z to 1.0)
-        println(partialApp2)
-        val partialApp3 = q(Z to 1.0)(X to 1.0, Y to 1.0)
-        println(partialApp3)
+        val q = X + Y - Z + Y + 0.0
+        val z = X + Y + Z
+        val t = q(X to 1.0, Y to 2.0, Z to 3.0)
+        val r = q(X to 1.0, Y to 1.0)(Z to 1.0)
+        val s = q(X to 1.0)(Y to 1.0, Z to 1.0)
+        val u = q(Z to 1.0)(X to 1.0, Y to 1.0)
     }
 }

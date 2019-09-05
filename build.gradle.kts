@@ -21,7 +21,7 @@ repositories {
 dependencies {
     implementation("org.jooq:jooq:3.12.1")
     implementation(kotlin("stdlib-jdk8"))
-    implementation("edu.umontreal:kotlingrad:0.2.1")
+//    implementation("edu.umontreal:kotlingrad:0.2.1")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.12")
     compile("org.jetbrains.kotlin:kotlin-scripting-jvm")
 }
