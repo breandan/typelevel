@@ -5,6 +5,7 @@ import org.jooq.example.db.h2.Tables.*
 import org.jooq.impl.DSL
 import java.io.PrintStream
 import kotlin.random.Random
+import java.lang.StringBuilder
 
 /*==============================================
 
@@ -15,8 +16,7 @@ import kotlin.random.Random
                A Shape-Safe eDSL for
        Differentiable Functional Programming
 
-
-
+                 Code: kg.ndan.co
 
 
                 Breandan Considine
@@ -42,7 +42,7 @@ import kotlin.random.Random
   Given how hard thinking is, if those
   intellectual tools are to succeed,
   they will have to substitute calculation
-  for thought. " -- Leslie Lamport
+  for thought. " --Leslie Lamport
 
 
 ===============================================*/
@@ -50,17 +50,19 @@ import kotlin.random.Random
 
 // An Gentle Introduction to Type Safety
 
-fun getLength(a: Any) = //if(any is String) any.length else 0
+fun getLength(a: Any) =
     when(a) {
         is String -> a.length
-        is List<*> -> a.size
-        is Number -> a.toString().length
-        else -> 0
+        is Collection<*> -> a.size
+        is Map<*, *> -> a.size
+        else -> 1
     }
 
-//val q = if(Random.nextBoolean()) null else "t"
-//val r = q.length
-//val s = r / 2
+
+val q = if(Random.nextBoolean()) null else "t"
+val r = q?.length ?: 0
+val s = r / 2
+
 
 val airplane = Chassis
     .addWings()
@@ -70,13 +72,13 @@ val airplane = Chassis
     .build()
 
 
-val t = StringBuilder(1).appendHTML().html {
+val t = StringBuilder().appendHTML().html {
     head {
-        title { +"Hello MAIS" }
+        title("test")
     }
     body {
-        a("http://website.com") {
-            +"A link"
+        a(href = "http://montrealaisymposium.com") {
+            +"Hello MAIS!"
         }
     }
 }
@@ -84,39 +86,34 @@ val t = StringBuilder(1).appendHTML().html {
 // A SQL DSL
 
 fun DSLContext.query() {
-    select(AUTHOR.LAST_NAME,
-        AUTHOR.FIRST_NAME,
-        BOOK.TITLE,
-        BOOK.PUBLISHED_IN)
+    select(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME, BOOK.TITLE)
         .from(AUTHOR)
-        .join(BOOK).on(BOOK.ID.eq(AUTHOR.ID))
-        .and(AUTHOR.LAST_NAME.notEqual("1"))
+        .join(BOOK).on(BOOK.AUTHOR_ID.eq(AUTHOR.ID))
+        .where(AUTHOR.LAST_NAME.contains("Iverson"))
 }
 
 
 
+/*====================================================
 
 
+Although mathematical notation undoubtedly possesses
+parsing rules, they are rather loose, sometimes
+contradictory, and seldom clearly stated...
+
+The proliferation of programming languages shows no more
+uniformity than mathematics. Nevertheless, programming
+languages do bring a different perspective...
+
+Because of their application to a broad range of topics,
+their strict grammar, and their strict interpretation,
+programming languages can provide new insights into
+mathematical notation. --Kenneth Iverson
 
 
+=====================================================*/
 
 
-
-
-
-
-
-
-
-
-fun DSLContext.use() {
-    val a = AUTHOR
-    val b = BOOK
-
-    select(a.FIRST_NAME, a.LAST_NAME, b.TITLE)
-        .from(a)
-        .join(b).on(a.ID.eq(b.AUTHOR_ID))
-}
 
 fun test() {
     with(DoublePrecision) {
@@ -124,39 +121,29 @@ fun test() {
         val y = Var("y", 0.0)
 
         val f = x pow 2
-        println(f(x to 3.0))
-        println("f(x) = $f")
         val df_dx = f.diff(x)
-        println("f'(x) = $df_dx")
-
         val g = x pow x
-        println("g(x) = $g")
         val dg_dx = g.diff(x)
-        println("g'(x) = $dg_dx")
 
         val h = x + y
-        println("h(x) = $h")
         val dh_dx = h.diff(x)
-        println("h'(x) = $dh_dx")
 
         val vf1 = VFun(y + x, y * 2)
         val bh = x * vf1
         val vf2 = VFun(x, y)
         val q = vf1 + vf2
         val z = q(x to 1.0, y to 2.0)
-        println("z: $z")
     }
 }
 
-// Variable capture
+// Type-safe variable capture
 
-fun example3() {
-    with(DoubleContext) {
-        val q = X + Y - Z + Y + 0.0
-        val z = X + Y + Z
-        val t = q(X to 1.0, Y to 2.0, Z to 3.0)
-        val r = q(X to 1.0, Y to 1.0)(Z to 1.0)
-        val s = q(X to 1.0)(Y to 1.0, Z to 1.0)
-        val u = q(Z to 1.0)(X to 1.0, Y to 1.0)
+fun variableCapture() {
+    with(IntContext) {
+        val q = X + Y - Z + Y + 3
+        val m = q(X = 1, Y = 2, Z = 3)
+        val r = q(X to 1, Y to 1)(Z to 1)
+        val s = q(X to 1)(Y to 1)(Z to 1)
+        val u = q(Z to 1)(Y to 1)
     }
 }
