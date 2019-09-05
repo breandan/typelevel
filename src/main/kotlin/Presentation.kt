@@ -1,3 +1,5 @@
+@file:Suppress("UnusedImport", "LocalVariableName", "SpellCheckingInspection")
+
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.jooq.DSLContext
@@ -92,7 +94,7 @@ fun DSLContext.query() {
 
 
 
-/*====================================================
+/*======================================================
 
 
 Although mathematical notation undoubtedly possesses
@@ -109,7 +111,7 @@ programming languages can provide new insights into
 mathematical notation. --Kenneth Iverson
 
 
-=====================================================*/
+========================================================*/
 
 
 
@@ -133,7 +135,7 @@ fun test() {
 // Type-safe variable capture
 
 fun variableCapture() {
-    with(IntContext) {
+    with(IntPrecision) {
         val q = X + Y - Z + Y + 3
         val m = q(X = 1, Y = 2, Z = 3)
         val r = q(X to 1, Y to 1)(Z to 1)

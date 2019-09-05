@@ -624,7 +624,7 @@ sealed class Proto<T: Const<T, in Number>, Q: Number> {
     abstract val Const<T, Number>.value: Q
 }
 
-object DblContext: Proto<DConst, Double>() {
+object DblPrecision: Proto<DConst, Double>() {
     override val Const<DConst, Number>.value: Double
         get() = c.toDouble()
 
@@ -659,7 +659,7 @@ object DblContext: Proto<DConst, Double>() {
     override infix fun FunZ<DConst>.to(c: Double) = ZBnd(DConst(c))
 }
 
-object IntContext: Proto<Int32, Int>() {
+object IntPrecision: Proto<Int32, Int>() {
     override val Const<Int32, Number>.value: Int
         get() = c.toInt()
 
