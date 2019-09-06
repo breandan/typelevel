@@ -7,45 +7,47 @@ import org.jooq.example.db.h2.Tables.*
 import kotlin.random.Random
 import java.lang.StringBuilder
 
-/*==============================================
-
-
-
-                     Kotlin∇:
-
-               A Shape-Safe eDSL for
-       Differentiable Functional Programming
-
-                 Code: kg.ndan.co
-
-
-                Breandan Considine
+/*=====================================================
 
 
 
 
-================================================
+                       Kotlin∇:
+
+                 A Shape-Safe eDSL for
+         Differentiable Functional Programming
+
+            (or types and why they matter)
+
+                   Code: kg.ndan.co
 
 
-" There is a race between the increasing
-  complexity of the systems we build and our
-  ability to develop intellectual tools for
-  understanding their complexity.
-
-  If the race is won by our tools, then
-  systems will eventually become easier to
-  use and more reliable. If not, they will
-  continue to become harder to use and less
-  reliable for all but a relatively small
-  set of common tasks.
-
-  Given how hard thinking is, if those
-  intellectual tools are to succeed,
-  they will have to substitute calculation
-  for thought. " --Leslie Lamport
+                  Breandan Considine
 
 
-===============================================*/
+
+=======================================================
+
+
+    " There is a race between the increasing
+      complexity of the systems we build and our
+      ability to develop intellectual tools for
+      understanding their complexity.
+
+      If the race is won by our tools, then
+      systems will eventually become easier to
+      use and more reliable. If not, they will
+      continue to become harder to use and less
+      reliable for all but a relatively small
+      set of common tasks.
+
+      Given how hard thinking is, if those
+      intellectual tools are to succeed,
+      they will have to substitute calculation
+      for thought. " --Leslie Lamport
+
+
+=====================================================*/
 
 
 // An Gentle Introduction to Type Safety
@@ -57,11 +59,6 @@ fun getLength(a: Any) =
         is Map<*, *> -> a.size
         else -> 1
     }
-
-
-val q = if(Random.nextBoolean()) null else "t"
-val r = q?.length ?: 0
-val s = r / 2
 
 
 val airplane = Chassis
@@ -114,10 +111,6 @@ mathematical notation. --Kenneth Iverson
 ========================================================*/
 
 
-fun main() {
-    test()
-}
-
 fun test() {
     with(DoublePrecision) {
         val f = x pow 2
@@ -149,3 +142,64 @@ fun variableCapture() {
         val u = q(Z to 1)(Y to 1)
     }
 }
+
+/*===============================================
+
+
+
+
+
+
+
+
+" The expressive power of a programming langauge
+  comes from its stricutres, not its affordances."
+
+  -- Robert Harper
+
+
+
+
+
+
+
+===================================================
+
+
+
+
+
+  IFT 6172 -- Semantics of programming languages
+
+                   Stefan Monnier
+
+         Day 	    Time 	        Place
+         Monday 	10h30-12h30 	Y-115
+         Wednesday 	10h30-12h30 	Z-205
+
+ www.iro.umontreal.ca/~monnier/6172/index.en.html
+
+
+
+
+
+
+===================================================
+
+
+                Special thanks to:
+                                 _
+                   Liam Paull     |
+                                  |- Super visors
+                Michalis Famelis _|
+
+                                    _
+         Hanneli Tavante             |
+         Alexander Nozik             |
+         Erik Meijer                 |- Great advice
+         Maxime Chevalier-Boisvert   |
+         Kiran Gopinathan           _|
+
+
+
+===================================================*/
