@@ -114,6 +114,9 @@ mathematical notation. --Kenneth Iverson
 ========================================================*/
 
 
+fun main() {
+    test()
+}
 
 fun test() {
     with(DoublePrecision) {
@@ -124,11 +127,14 @@ fun test() {
         val h = x + y
         val dh_dx = (d(h)/d(x)).diff(x) //h.diff(x)
 
-        val vf1 = VFun(y + x, y * 2)
-        val bh = x * vf1
-        val vf2 = VFun(x, y)
+        val vf1 = Vec(y + x, y * 2) + Vec(1.0, 2.0)
+        val bh = x * vf1 + Vec(1.0, 2.0)
+        val vf2 = Vec(x, y)
         val q = vf1 + vf2
         val z = q(x to 1.0, y to 2.0)
+        val c = Vec(1.0, 2.0, 3.0) * Vec(1.0, 2.0, 3.0)
+        val m = vf1.diff(x)
+        println("m = $m")
     }
 }
 
