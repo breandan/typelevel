@@ -1,5 +1,6 @@
 @file:Suppress("UnusedImport", "LocalVariableName", "SpellCheckingInspection")
 
+import DoublePrecision.x
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.jooq.DSLContext
@@ -153,14 +154,11 @@ mathematical notation. --Kenneth Iverson
 
 
 
-
-
 // Primitive type-safety
 
-fun typeSafeDemo() {
+fun kotlingradSafeDemo() {
     TODO()
 }
-
 
 
 

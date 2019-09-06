@@ -131,13 +131,13 @@ mathematical notation. --Kenneth Iverson
 
 fun typeSafeDemo() {
     with(DoublePrecision) {
-        val f = DoublePrecision.x pow 2
-        val df_dx = f.diff(DoublePrecision.x)
-        val g = DoublePrecision.x pow DoublePrecision.x
-        val dg_dx = g.diff(DoublePrecision.x)
-        val h = DoublePrecision.x + DoublePrecision.y
-        val dh_dx = d(h) / d(DoublePrecision.x)
-        val d2h_dx2 = d(dh_dx) / d(DoublePrecision.x)
+        val f = x pow 2
+        val df_dx = f.diff(x)
+        val g = x pow x
+        val dg_dx = g.diff(x)
+        val h = x + y
+        val dh_dx = d(h) / d(x)
+        val d2h_dx2 = d(dh_dx) / d(x)
     }
 }
 
@@ -145,13 +145,13 @@ fun typeSafeDemo() {
 
 fun shapeSafeDemo() {
     with(DoublePrecision) {
-        val vf1 = Vec(DoublePrecision.y + DoublePrecision.x, DoublePrecision.y * 2) + DoublePrecision.Vec(1.0, 2.0)
-        val bh = DoublePrecision.x * vf1 + DoublePrecision.Vec(1.0, 2.0)
-        val vf2 = Vec(DoublePrecision.x, DoublePrecision.y)
+        val vf1 = Vec(y + x, y * 2) + Vec(1.0, 2.0)
+        val bh = x * vf1 + Vec(1.0, 2.0)
+        val vf2 = Vec(x, y)
         val q = vf1 + vf2
-        val z = q(DoublePrecision.x to 1.0, DoublePrecision.y to 2.0)
-        val c = DoublePrecision.Vec(1.0, 2.0, 3.0) * DoublePrecision.Vec(1.0, 2.0, 3.0)
-        val m = vf1.diff(DoublePrecision.x)
+        val z = q(x to 1.0, y to 2.0)
+        val c = Vec(1.0, 2.0, 3.0) * Vec(1.0, 2.0, 3.0)
+        val m = vf1.diff(x)
         println("m = $m")
     }
 }
@@ -160,11 +160,11 @@ fun shapeSafeDemo() {
 
 fun variableCapture() {
     with(IntPrecision) {
-        val q = IntPrecision.X + IntPrecision.Y - IntPrecision.Z + IntPrecision.Y + 3
+        val q = X + Y - Z + Y + 3
         val m = q(X = 1, Y = 2, Z = 3)
-        val r = q(IntPrecision.X to 1, IntPrecision.Y to 1)(IntPrecision.Z to 1)
-        val s = q(IntPrecision.X to 1)(IntPrecision.Y to 1)(IntPrecision.Z to 1)
-        val u = q(IntPrecision.Z to 1)(IntPrecision.Y to 1)
+        val r = q(X to 1, Y to 1)(Z to 1)
+        val s = q(X to 1)(Y to 1)(Z to 1)
+        val u = q(Z to 1)(Y to 1)
     }
 }
 
