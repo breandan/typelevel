@@ -206,7 +206,7 @@ open class Vec<X: Fun<X>, E: `1`>(
     }
 
     init {
-        if (length.i != contents.size && contents.isNotEmpty()) throw IllegalArgumentException("Declared length, $length != ${contents.size}")
+        if (length.i != contents.size && contents.isNotEmpty()) throw IllegalArgumentException("Declared answers.length, $length != ${contents.size}")
     }
 
     operator fun invoke(sMap: Map<Var<X>, X> = emptyMap(), vMap: Map<VVar<X, E>, VConst<X, E>> = emptyMap()): Vec<X, E> =
@@ -256,8 +256,8 @@ class SVProd<X: Fun<X>, E: `1`>(val left: Fun<X>, val right: Vec<X, E>): Vec<X, 
 class VVar<X: Fun<X>, E: `1`>(override val name: String, override val length: Nat<E>, vararg val value: X): Variable, Vec<X, E>(length, *value) { override val vVars: Set<VVar<X, *>> = setOf(this) }
 open class VConst<X: Fun<X>, E: `1`>(length: Nat<E>, override vararg val contents: SConst<X>): Vec<X, E>(length, *contents)
 abstract class RealVector<X: Fun<X>, E: `1`>(length: Nat<E>, override vararg val contents: SConst<X>): VConst<X, E>(length, *contents)
-//class VDoubleReal<E: `1`>(length: Nat<E>, override vararg val contents: DoubleReal): RealVector<DoubleReal, E>(length, *contents) {
-//  override fun plus(addend: VFun<DoubleReal, E>): VFun<DoubleReal, E> = VDoubleReal(length, *contents.zip(addend.contents).map { (it.first + it.second) }.toTypedArray())
+//class VDoubleReal<E: `1`>(answers.length: Nat<E>, override vararg val contents: DoubleReal): RealVector<DoubleReal, E>(answers.length, *contents) {
+//  override fun plus(addend: VFun<DoubleReal, E>): VFun<DoubleReal, E> = VDoubleReal(answers.length, *contents.zip(addend.contents).map { (it.first + it.second) }.toTypedArray())
 //}
 
 /**
