@@ -1,14 +1,22 @@
 @file:Suppress("UnusedImport", "LocalVariableName", "SpellCheckingInspection")
 
-import DoublePrecision.x
+package answers
+
+import Airplane
+import Chassis
+import DoublePrecision
+import IntPrecision
+import Vec
+import addEngines
+import addTail
+import addWheels
+import addWings
+import build
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.jooq.DSLContext
-import org.jooq.Record3
 import org.jooq.Result
 import org.jooq.example.db.h2.Tables.*
-import kotlin.random.Random
-import java.lang.StringBuilder
 
 /*=====================================================
 
@@ -53,83 +61,52 @@ import java.lang.StringBuilder
 =====================================================*/
 
 
-
-
-
 // Gentle Introduction to Type Safety
 
 fun length(a: Any): Int {
-    TODO()
+    return when (a) {
+        is String -> a.length
+        is Collection<*> -> a.size
+        is Map<*, *> -> a.size
+        else -> 1
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Type-safe Builder pattern
 
 fun buildAirplane(): Airplane {
-    TODO()
+    return Chassis
+        .addWings()
+        .addEngines()
+        .addWheels()
+        .addTail()
+        .build()
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // "Fluent Interface"
 
 fun getQueryResults(context: DSLContext): Result<*>? {
-    TODO()
+    return context
+        .select(AUTHOR.FIRST_NAME, AUTHOR.LAST_NAME, BOOK.TITLE)
+        .from(AUTHOR)
+        .join(BOOK).on(BOOK.AUTHOR_ID.eq(AUTHOR.ID))
+        .where(AUTHOR.LAST_NAME.contains("Iverson")).fetch()
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Embedded Domain Specific Langauge
 
 fun buildWebpage(): String {
-    TODO()
+    return StringBuilder().appendHTML().html {
+        head {
+            title("test")
+        }
+        body {
+            a(href = "http://montrealaisymposium.com") {
+                +"Hello MAIS!"
+            }
+        }
+    }.toString()
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*======================================================
 
@@ -150,83 +127,46 @@ mathematical notation. --Kenneth Iverson
 
 ========================================================*/
 
-
-
-
-
 // Primitive type-safety
 
-fun kotlingradSafeDemo() {
-    TODO()
+fun typeSafeDemo() {
+    with(DoublePrecision) {
+        val f = x pow 2
+        val df_dx = f.diff(x)
+        val g = x pow x
+        val dg_dx = g.diff(x)
+        val h = x + y
+        val dh_dx = d(h) / d(x)
+        val d2h_dx2 = d(dh_dx) / d(x)
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Shape-safety
 
 fun shapeSafeDemo() {
-    TODO()
+    with(DoublePrecision) {
+        val vf1 = Vec(y + x, y * 2) + Vec(1.0, 2.0)
+        val bh = x * vf1 + Vec(1.0, 2.0)
+        val vf2 = Vec(x, y)
+        val q = vf1 + vf2
+        val z = q(x to 1.0, y to 2.0)
+        val c = Vec(1.0, 2.0, 3.0) * Vec(1.0, 2.0, 3.0)
+        val m = vf1.diff(x)
+        println("m = $m")
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Type-safe variable capture
 
 fun variableCapture() {
-    TODO()
+    with(IntPrecision) {
+        val q = X + Y - Z + Y + 3
+        val m = q(X = 1, Y = 2, Z = 3)
+        val r = q(X to 1, Y to 1)(Z to 1)
+        val s = q(X to 1)(Y to 1)(Z to 1)
+        val u = q(Z to 1)(Y to 1)
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*===============================================
 
