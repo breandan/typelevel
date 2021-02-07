@@ -5,7 +5,6 @@ package answers
 import Airplane
 import Chassis
 import DoublePrecision
-import IntPrecision
 import Vec
 import addEngines
 import addTail
@@ -17,6 +16,9 @@ import kotlinx.html.stream.appendHTML
 import org.jooq.DSLContext
 import org.jooq.Result
 import org.jooq.example.db.h2.Tables.*
+import x
+import y
+import z
 
 /*=====================================================
 
@@ -159,13 +161,11 @@ fun shapeSafeDemo() {
 // Type-safe variable capture
 
 fun variableCapture() {
-    with(IntPrecision) {
-        val q = X + Y - Z + Y + 3
-        val m = q(X = 1, Y = 2, Z = 3)
-        val r = q(X to 1, Y to 1)(Z to 1)
-        val s = q(X to 1)(Y to 1)(Z to 1)
-        val u = q(Z to 1)(Y to 1)
-    }
+        val q = x + y - z + y + 3
+        val m = q(x to 1, y to 2, z to 3)
+        val r = q(x to 1, y to 1)(z to 1)
+        val s = q(x to 1)(y to 1)(z to 1)
+        val u = q(z to 1)(y to 1)
 }
 
 /*===============================================

@@ -22,8 +22,8 @@ dependencies {
 tasks {
     withType<KotlinCompile> {
         kotlinOptions {
-//            apiVersion = "1.5"
-//            languageVersion = "1.5"
+            apiVersion = "1.5"
+            languageVersion = "1.5"
             jvmTarget = "1.8"
         }
     }
