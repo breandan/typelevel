@@ -51,7 +51,7 @@ import java.lang.StringBuilder
 // An Gentle Introduction to Type Safety
 
 fun getLength(a: Any) =
-    when(a) {
+    when (a) {
         is String -> a.length
         is Collection<*> -> a.size
         is Map<*, *> -> a.size
@@ -59,7 +59,7 @@ fun getLength(a: Any) =
     }
 
 
-val q = if(Random.nextBoolean()) null else "t"
+val q = if (Random.nextBoolean()) null else "t"
 val r = q?.length ?: 0
 val s = r / 2
 
@@ -93,7 +93,6 @@ fun DSLContext.query() {
 }
 
 
-
 /*======================================================
 
 
@@ -122,7 +121,7 @@ fun test() {
         val g = x pow x
         val dg_dx = g.diff(x)
         val h = x + y
-        val dh_dx = (d(h)/d(x)).diff(x) //h.diff(x)
+        val dh_dx = (d(h) / d(x)).diff(x) //h.diff(x)
 
         val vf1 = VFun(y + x, y * 2)
         val bh = x * vf1
@@ -135,11 +134,13 @@ fun test() {
 // Type-safe variable capture
 
 fun variableCapture() {
-    with(IntPrecision) {
-        val q = X + Y - Z + Y + 3
-        val m = q(X = 1, Y = 2, Z = 3)
-        val r = q(X to 1, Y to 1)(Z to 1)
-        val s = q(X to 1)(Y to 1)(Z to 1)
-        val u = q(Z to 1)(Y to 1)
-    }
+    val q = x + y - z + y + 3
+    val m = q(x to 1, y to 2, z to 3)
+    val r = q(x to 1, y to 1)(z to 1)
+    val s = q(x to 1)(y to 1)(z to 1)
+    val u = q(z to 1)(y to 1)
+}
+
+fun main() {
+    variableCapture()
 }
