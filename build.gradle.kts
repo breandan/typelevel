@@ -7,15 +7,12 @@ plugins {
 group = "edu.umontreal"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    jcenter()
-    mavenCentral()
-}
+repositories.mavenCentral()
 
 dependencies {
     implementation("org.jooq:jooq:3.12.1")
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.12")
+    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.10")
     compile("org.jetbrains.kotlin:kotlin-scripting-jvm")
 }
 
