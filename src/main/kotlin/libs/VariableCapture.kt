@@ -1,5 +1,7 @@
+package libs
+
 import kotlin.reflect.KProperty
-import Dyad.*
+import libs.Dyad.*
 
 sealed class XO
 abstract class XX: XO() // Present
@@ -10,9 +12,9 @@ enum class Dyad: Op { `+`, `-`, `*`, `÷` }
 
 open class Ex<V1: XO, V2: XO, V3: XO>
 constructor(
-    vararg val exs: Ex<*, *, *>,
-    val op: Op? = null,
-    open val name: String? = null
+  vararg val exs: Ex<*, *, *>,
+  val op: Op? = null,
+  open val name: String? = null
 ) {
     fun <N: Number> call(vararg vrb: VrB<N>): N = (inv<N, V1, V2, V3>(*vrb) as Nt<N>).value
     open fun <T: Number, V1: XO, V2: XO, V3: XO> inv(vararg bnds: VrB<T>): Ex<V1, V2, V3> =
@@ -41,6 +43,7 @@ constructor(
 open class Nt<T: Number>(val value: T): Ex<OO, OO, OO>() { override fun toString() = value.toString() }
 
 val x by V1(); val y by V2(); val z by V3()
+val t = x + x
 open class V1 internal constructor(name: String = "v1"): Vr<XX, OO, OO>(name) {
     override fun getValue(n: Nothing?, property: KProperty<*>) = V1(property.name)
 }
@@ -87,11 +90,11 @@ operator fun <N: Number, V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.div(n: N) = Ex<V
  *
  * For combination, i.e. any arithmetical operation:
  *
- *                |  x      y      z      xy      xz      yz      xyz
+ *                |  x      libs.getY      libs.getZ      xy      xz      yz      xyz
  *            -------------------------------------------------------
  *            x   |  x      xy     xz     xy      xz      xyz     xyz
- *            y   |  xy     y      yz     xy      xyz     yz      xyz
- *            z   |  xz     yz     z      xyz     xz      yz      xyz
+ *            libs.getY   |  xy     libs.getY      yz     xy      xyz     yz      xyz
+ *            libs.getZ   |  xz     yz     libs.getZ      xyz     xz      yz      xyz
  *            xy  |  xy     xy     xyz    xy      xyz     xyz     xyz
  *            xz  |  xz     xyz    xz     xyz     xz      xyz     xyz
  *            yz  |  xyz    yz     yz     xyz     xyz     yz      xyz
@@ -101,13 +104,13 @@ operator fun <N: Number, V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.div(n: N) = Ex<V
  *
  * For application/invocation, where P is a constant:
  *
- *                |  x      y      z      xy      xz      yz      xyz
+ *                |  x      libs.getY      libs.getZ      xy      xz      yz      xyz
  *            -------------------------------------------------------
- *            x   |  P                    y       z               yz
- *            y   |         P             x               z       xz
- *            z   |                P              x       y       xy
- *            xy  |                       P                       z
- *            xz  |                               P               y
+ *            x   |  P                    libs.getY       libs.getZ               yz
+ *            libs.getY   |         P             x               libs.getZ       xz
+ *            libs.getZ   |                P              x       libs.getY       xy
+ *            xy  |                       P                       libs.getZ
+ *            xz  |                               P               libs.getY
  *            yz  |                                       P       x
  *            xyz |                                               P
  */
@@ -130,14 +133,14 @@ operator fun <N: Number, V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.div(n: N) = Ex<V
 @JvmName("m:t_t") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.minus(e: Ex<XX, OO, XX>) = Ex<XX, V2, XX>(this, e, op = `-`)
 @JvmName("m:ttt") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.minus(e: Ex<XX, XX, XX>) = Ex<XX, XX, XX>(this, e, op = `-`)
 
-@JvmName("t:___") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<OO, OO, OO>) = Ex<V1, V2, V3>(this, e, op = `*`)
-@JvmName("t:t__") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<XX, OO, OO>) = Ex<XX, V2, V3>(this, e, op = `*`)
-@JvmName("t:_t_") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<OO, XX, OO>) = Ex<V1, XX, V3>(this, e, op = `*`)
-@JvmName("t:__t") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<OO, OO, XX>) = Ex<V1, V2, XX>(this, e, op = `*`)
-@JvmName("t:tt_") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<XX, XX, OO>) = Ex<XX, XX, V2>(this, e, op = `*`)
-@JvmName("t:_tt") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<OO, XX, XX>) = Ex<V1, XX, XX>(this, e, op = `*`)
-@JvmName("t:t_t") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<XX, OO, XX>) = Ex<XX, V2, XX>(this, e, op = `*`)
-@JvmName("t:ttt") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<XX, XX, XX>) = Ex<XX, XX, XX>(this, e, op = `*`)
+@JvmName("libs_getT:___") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<OO, OO, OO>) = Ex<V1, V2, V3>(this, e, op = `*`)
+@JvmName("libs_getT:t__") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<XX, OO, OO>) = Ex<XX, V2, V3>(this, e, op = `*`)
+@JvmName("libs_getT:_t_") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<OO, XX, OO>) = Ex<V1, XX, V3>(this, e, op = `*`)
+@JvmName("libs_getT:__t") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<OO, OO, XX>) = Ex<V1, V2, XX>(this, e, op = `*`)
+@JvmName("libs_getT:tt_") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<XX, XX, OO>) = Ex<XX, XX, V2>(this, e, op = `*`)
+@JvmName("libs_getT:_tt") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<OO, XX, XX>) = Ex<V1, XX, XX>(this, e, op = `*`)
+@JvmName("libs_getT:t_t") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<XX, OO, XX>) = Ex<XX, V2, XX>(this, e, op = `*`)
+@JvmName("libs_getT:ttt") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.times(e: Ex<XX, XX, XX>) = Ex<XX, XX, XX>(this, e, op = `*`)
 
 @JvmName("d:___") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.div(e: Ex<OO, OO, OO>) = Ex<V1, V2, V3>(this, e, op = `÷`)
 @JvmName("d:t__") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.div(e: Ex<XX, OO, OO>) = Ex<XX, V2, V3>(this, e, op = `÷`)
@@ -148,7 +151,7 @@ operator fun <N: Number, V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.div(n: N) = Ex<V
 @JvmName("d:t_t") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.div(e: Ex<XX, OO, XX>) = Ex<XX, V2, XX>(this, e, op = `÷`)
 @JvmName("d:ttt") operator fun <V1: XO, V2: XO, V3: XO> Ex<V1, V2, V3>.div(e: Ex<XX, XX, XX>) = Ex<XX, XX, XX>(this, e, op = `÷`)
 
-//                                            V1, V2, V3
+//                                            libs.V1, libs.V2, libs.V3
 @JvmName("i:t__") operator fun <N: Number> Ex<XX, OO, OO>.invoke(n: N) = call(V1() to n)
 @JvmName("i:_t_") operator fun <N: Number> Ex<OO, XX, OO>.invoke(n: N) = call(V2() to n)
 @JvmName("i:__t") operator fun <N: Number> Ex<OO, OO, XX>.invoke(n: N) = call(V3() to n)

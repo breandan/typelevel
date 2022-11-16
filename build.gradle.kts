@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.30"
+  kotlin("jvm") version "1.8.0-Beta"
 }
 
 group = "edu.umontreal"
@@ -10,10 +10,10 @@ version = "1.0-SNAPSHOT"
 repositories.mavenCentral()
 
 dependencies {
-    implementation("org.jooq:jooq:3.12.1")
+    implementation("org.jooq:jooq:3.17.5")
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.10")
-    compile("org.jetbrains.kotlin:kotlin-scripting-jvm")
+    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
+    implementation("org.jetbrains.kotlin:kotlin-scripting-jvm")
 }
 
 tasks {

@@ -1,4 +1,4 @@
-
+package libs
 import kotlin.math.E
 import kotlin.math.ln
 import kotlin.math.pow
@@ -165,18 +165,22 @@ object DoublePrecision : Protocol<DoubleReal>() {
         this(sPairs.map { (it.first to wrap(it.second)) }.toMap())
 
     val x = Var("x", 0.0)
-    val y = Var("y", 0.0)
-    val z = Var("z", 0.0)
+    val y = Var("libs.getY", 0.0)
+    val z = Var("libs.getZ", 0.0)
 
-    fun Vec(d0: Double) = Vec(DoubleReal(d0))
+    fun Vec(d0: Double): Vec<DoubleReal, `1`> = Vec(DoubleReal(d0))
     fun Vec(d0: Double, d1: Double): Vec<DoubleReal, `2`> = Vec(DoubleReal(d0), DoubleReal(d1))
     fun Vec(d0: Double, d1: Double, d2: Double): Vec<DoubleReal, `3`> = Vec(DoubleReal(d0), DoubleReal(d1), DoubleReal(d2))
     fun Vec(d0: Double, d1: Double, d2: Double, d3: Double) = Vec(DoubleReal(d0), DoubleReal(d1), DoubleReal(d2), DoubleReal(d3))
     fun Vec(d0: Double, d1: Double, d2: Double, d3: Double, d4: Double) = Vec(DoubleReal(d0), DoubleReal(d1), DoubleReal(d2), DoubleReal(d3), DoubleReal(d4))
     fun Vec(d0: Double, d1: Double, d2: Double, d3: Double, d4: Double, d5: Double) = Vec(DoubleReal(d0), DoubleReal(d1), DoubleReal(d2), DoubleReal(d3), DoubleReal(d4), DoubleReal(d5))
     fun Vec(d0: Double, d1: Double, d2: Double, d3: Double, d4: Double, d5: Double, d6: Double) = Vec(DoubleReal(d0), DoubleReal(d1), DoubleReal(d2), DoubleReal(d3), DoubleReal(d4), DoubleReal(d5), DoubleReal(d6))
-    fun Vec(d0: Double, d1: Double, d2: Double, d3: Double, d4: Double, d5: Double, d6: Double, d7: Double) = Vec(DoubleReal(d0), DoubleReal(d1), DoubleReal(d2), DoubleReal(d3), DoubleReal(d4), DoubleReal(d5), DoubleReal(d6), DoubleReal(d7))
-    fun Vec(d0: Double, d1: Double, d2: Double, d3: Double, d4: Double, d5: Double, d6: Double, d7: Double, d8: Double) = Vec(DoubleReal(d0), DoubleReal(d1), DoubleReal(d2), DoubleReal(d3), DoubleReal(d4), DoubleReal(d5), DoubleReal(d6), DoubleReal(d7), DoubleReal(d8))
+    fun Vec(d0: Double, d1: Double, d2: Double, d3: Double, d4: Double, d5: Double, d6: Double, d7: Double) = Vec(
+      DoubleReal(d0), DoubleReal(d1), DoubleReal(d2), DoubleReal(d3), DoubleReal(d4), DoubleReal(d5), DoubleReal(d6), DoubleReal(d7)
+    )
+    fun Vec(d0: Double, d1: Double, d2: Double, d3: Double, d4: Double, d5: Double, d6: Double, d7: Double, d8: Double) = Vec(
+      DoubleReal(d0), DoubleReal(d1), DoubleReal(d2), DoubleReal(d3), DoubleReal(d4), DoubleReal(d5), DoubleReal(d6), DoubleReal(d7), DoubleReal(d8)
+    )
 }
 
 /**
@@ -184,10 +188,10 @@ object DoublePrecision : Protocol<DoubleReal>() {
  */
 
 open class Vec<X: Fun<X>, E: `1`>(
-    open val length: Nat<E>,
-    val sVars: Set<Var<X>> = emptySet(),
-    open val vVars: Set<VVar<X, *>> = emptySet(),
-    open vararg val contents: Fun<X>
+  open val length: Nat<E>,
+  val sVars: Set<Var<X>> = emptySet(),
+  open val vVars: Set<VVar<X, *>> = emptySet(),
+  open vararg val contents: Fun<X>
 ) {
     constructor(length: Nat<E>, contents: List<Fun<X>>): this(length, contents.flatMap { it.vars }.toSet(), emptySet(), *contents.toTypedArray())
     constructor(length: Nat<E>, vararg contents: Fun<X>): this(length, contents.flatMap { it.vars }.toSet(), emptySet(), *contents)
@@ -198,11 +202,16 @@ open class Vec<X: Fun<X>, E: `1`>(
         operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>): Vec<T, `2`> = Vec(`2`, arrayListOf(t0, t1))
         operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>): Vec<T, `3`> = Vec(`3`, arrayListOf(t0, t1, t2))
         operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>, t3: Fun<T>): Vec<T, `4`> = Vec(`4`, arrayListOf(t0, t1, t2, t3))
-        operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>, t3: Fun<T>, t4: Fun<T>): Vec<T, `5`> = Vec(`5`, arrayListOf(t0, t1, t2, t3, t4))
-        operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>, t3: Fun<T>, t4: Fun<T>, t5: Fun<T>): Vec<T, `6`> = Vec(`6`, arrayListOf(t0, t1, t2, t3, t4, t5))
-        operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>, t3: Fun<T>, t4: Fun<T>, t5: Fun<T>, t6: Fun<T>): Vec<T, `7`> = Vec(`7`, arrayListOf(t0, t1, t2, t3, t4, t5, t6))
-        operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>, t3: Fun<T>, t4: Fun<T>, t5: Fun<T>, t6: Fun<T>, t7: Fun<T>): Vec<T, `8`> = Vec(`8`, arrayListOf(t0, t1, t2, t3, t4, t5, t6, t7))
-        operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>, t3: Fun<T>, t4: Fun<T>, t5: Fun<T>, t6: Fun<T>, t7: Fun<T>, t8: Fun<T>): Vec<T, `9`> = Vec(`9`, arrayListOf(t0, t1, t2, t3, t4, t5, t6, t7, t8))
+        operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>, t3: Fun<T>, t4: Fun<T>): Vec<T, `5`> = Vec(
+          `5`, arrayListOf(t0, t1, t2, t3, t4))
+        operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>, t3: Fun<T>, t4: Fun<T>, t5: Fun<T>): Vec<T, `6`> = Vec(
+          `6`, arrayListOf(t0, t1, t2, t3, t4, t5))
+        operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>, t3: Fun<T>, t4: Fun<T>, t5: Fun<T>, t6: Fun<T>): Vec<T, `7`> = Vec(
+          `7`, arrayListOf(t0, t1, t2, t3, t4, t5, t6))
+        operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>, t3: Fun<T>, t4: Fun<T>, t5: Fun<T>, t6: Fun<T>, t7: Fun<T>): Vec<T, `8`> = Vec(
+          `8`, arrayListOf(t0, t1, t2, t3, t4, t5, t6, t7))
+        operator fun <T: Fun<T>> invoke(t0: Fun<T>, t1: Fun<T>, t2: Fun<T>, t3: Fun<T>, t4: Fun<T>, t5: Fun<T>, t6: Fun<T>, t7: Fun<T>, t8: Fun<T>): Vec<T, `9`> = Vec(
+          `9`, arrayListOf(t0, t1, t2, t3, t4, t5, t6, t7, t8))
     }
 
     init {
@@ -214,7 +223,7 @@ open class Vec<X: Fun<X>, E: `1`>(
             is VNegative<X, E> -> Vec(length, value(sMap, vMap).contents.map { -it })
             is VSum<X, E> -> left(sMap, vMap) + right(sMap, vMap)
             is VVProd<X, E> -> left(sMap, vMap) * right(sMap, vMap)
-//    is VDot<X, E> -> VFun(`1`, contents.reduceIndexed { index, acc, element -> acc + element * right[index] })
+//    is VDot<X, E> -> VFun(libs.`1`, contents.reduceIndexed { index, acc, element -> acc + element * right[index] })
             is VVar<X, E> -> vMap.getOrElse(this) { this }
             else -> this
         }
@@ -224,7 +233,7 @@ open class Vec<X: Fun<X>, E: `1`>(
             is VConst -> VConst(length, *contents.map { it.zero }.toTypedArray())
             is VSum -> left.diff(variable) + right.diff(variable)
             is VVProd -> left.diff(variable) * right + right.diff(variable) * left
-//    is SVProd -> left.diff(variable) * right + right.diff(variable) * left
+//    is libs.SVProd -> left.diff(variable) * right + right.diff(variable) * left
             else -> Vec(length, contents.map { it.diff(variable) })
         }
 
@@ -248,7 +257,7 @@ open class Vec<X: Fun<X>, E: `1`>(
 
 class VNegative<X: Fun<X>, E: `1`>(val value: Vec<X, E>): Vec<X, E>(value.length, value)
 class VSum<X: Fun<X>, E: `1`>(val left: Vec<X, E>, val right: Vec<X, E>): Vec<X, E>(left.length, left, right)
-//class VDot<X: Fun<X>, E: `1`>(val left: VFun<X, E>, val right: VFun<X, E>): Fun<X>(left.vars + right.vars)
+//class VDot<X: libs.Fun<X>, E: libs.`1`>(val left: VFun<X, E>, val right: VFun<X, E>): libs.Fun<X>(left.vars + right.vars)
 
 class VVProd<X: Fun<X>, E: `1`>(val left: Vec<X, E>, val right: Vec<X, E>): Vec<X, E>(left.length, left, right)
 class SVProd<X: Fun<X>, E: `1`>(val left: Fun<X>, val right: Vec<X, E>): Vec<X, E>(right.length, left.vars + right.sVars, right.vVars, *right.contents)
@@ -256,8 +265,8 @@ class SVProd<X: Fun<X>, E: `1`>(val left: Fun<X>, val right: Vec<X, E>): Vec<X, 
 class VVar<X: Fun<X>, E: `1`>(override val name: String, override val length: Nat<E>, vararg val value: X): Variable, Vec<X, E>(length, *value) { override val vVars: Set<VVar<X, *>> = setOf(this) }
 open class VConst<X: Fun<X>, E: `1`>(length: Nat<E>, override vararg val contents: SConst<X>): Vec<X, E>(length, *contents)
 abstract class RealVector<X: Fun<X>, E: `1`>(length: Nat<E>, override vararg val contents: SConst<X>): VConst<X, E>(length, *contents)
-//class VDoubleReal<E: `1`>(answers.length: Nat<E>, override vararg val contents: DoubleReal): RealVector<DoubleReal, E>(answers.length, *contents) {
-//  override fun plus(addend: VFun<DoubleReal, E>): VFun<DoubleReal, E> = VDoubleReal(answers.length, *contents.zip(addend.contents).map { (it.first + it.second) }.toTypedArray())
+//class VDoubleReal<E: libs.`1`>(answers.length: libs.Nat<E>, override vararg val contents: libs.DoubleReal): libs.RealVector<libs.DoubleReal, E>(answers.length, *contents) {
+//  override fun libs.plus(addend: VFun<libs.DoubleReal, E>): VFun<libs.DoubleReal, E> = VDoubleReal(answers.length, *contents.zip(addend.contents).map { (it.first + it.second) }.toTypedArray())
 //}
 
 /**
